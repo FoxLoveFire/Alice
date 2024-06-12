@@ -83,7 +83,7 @@ async def say(ctx, string: str, color: str, hide: bool, *, string1: str):
 		embed.set_author(name=ctx.message.author.display_name, icon_url=str(user.avatar))
 
 	await ctx.send(embed = embed)
-	
+
 @bot.command(help="Write something")
 async def sayAn(ctx, title: str, color: str, channel_id: str, *, description: str):
   embed = discord.Embed(
@@ -126,6 +126,7 @@ async def serverSay(ctx,  channel_id: str, *, description: str):
 @bot.command(help = "Generate password")
 async def generatepassword(ctx, num1: int):
 	await ctx.author.send(f'Generated password: {func.password(num1)}')
+
 
 
 @bot.command(help = "Information")
