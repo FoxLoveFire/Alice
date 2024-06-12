@@ -54,6 +54,7 @@ async def whoami(ctx):
 	else:
 		await ctx.send(f'You`re an average joe {ctx.author.mention} ')
 
+	
 @bot.command(help = "Server list")
 async def server_list(ctx,*, string = None):
 	embed = discord.Embed(
@@ -71,15 +72,56 @@ async def server_list(ctx,*, string = None):
 	await ctx.send(embed = embed)
 
 @bot.command(help = "Write something")
-async def say(ctx, string: str, color: str, *, string1: str):
+async def say(ctx, string: str, color: str, hide: bool, *, string1: str):
 	embed = discord.Embed(
 	title = string,
 	description = string1,
 	color = func.colors[color])
-	user = ctx.author
-	embed.set_author(name = ctx.message.author.display_name, icon_url = str(user.avatar))
+
+	if hide:
+		user = ctx.author
+		embed.set_author(name=ctx.message.author.display_name, icon_url=str(user.avatar))
 
 	await ctx.send(embed = embed)
+	
+@bot.command(help="Write something")
+async def sayAn(ctx, title: str, color: str, channel_id: str, *, description: str):
+  embed = discord.Embed(
+    title=title,
+    description=description,
+    color=func.colors[color]
+  )
+
+  channel_id = int(channel_id.replace("<#", "").replace(">", ""))
+
+  channel = ctx.guild.get_channel(channel_id)
+
+  if channel is None:
+    await ctx.send(f"Канал с ID {channel_id} не найден.")
+    return
+
+  await channel.send(embed=embed)
+
+  await ctx.send(f"Сообщение отправлено в канал с ID {channel_id}")
+
+@bot.command(help="Write something")
+async def serverSay(ctx,  channel_id: str, *, description: str):
+  embed = discord.Embed(
+    title="Server",
+    description=description,
+    color=func.colors["red"]
+  )
+
+  channel_id = int(channel_id.replace("<#", "").replace(">", ""))
+  channel = ctx.guild.get_channel(channel_id)
+
+  if channel is None:
+    await ctx.send(f"Канал с ID {channel_id} не найден.")
+    return
+
+  await channel.send(embed=embed)
+  await ctx.send(f"Сообщение отправлено в канал с ID {channel_id}")
+
 
 @bot.command(help = "Generate password")
 async def generatepassword(ctx, num1: int):
