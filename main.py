@@ -144,7 +144,6 @@ async def info(ctx):
 async def reverse(ctx, *, string = None):
 	await ctx.send(func.reverse(string))
 
-
 @bot.command(help = "status")
 async def status(ctx):
 	embed = discord.Embed(
